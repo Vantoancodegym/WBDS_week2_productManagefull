@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row col-md-6 col-md-offset-2 custyle">
+        <table class="table table-striped custab">
+            <thead>
+            <a href="/products/create" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new categories</a>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Image</th>
+                <th>Date</th>
+                <th>Category</th>
+                <th class="text-center">Action</th>
+            </tr>
+            </thead>
+            <th:block th:each="p: ${productList}">
+                <tr>
+                    <td th:text="${p.name}"></td>
+                    <td th:text="${p.price}"></td>
+                    <td th:text="${p.amount}"></td>
+                    <td ><img th:src="@{'/i/'+ ${p.image}}" width="100px"></td>
+                    <td th:text="${p.dateTime}"></td>
+                    <td th:text="${p.category.getName()}"></td>
+
+                    <td class="text-center"><a class='btn btn-info btn-xs' th:href="@{/products/edit(id=${p.getId()})}" ><span class="glyphicon glyphicon-edit"></span> Edit</a> <a onclick="return confirm('are you sure?')" th:href="@{/products/delete(id=${p.getId()})}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                </tr>
+            </th:block>
+        </table>
+        <div>
+            <a th:href="@{'/products'(page=${productList.number - 1})}" th:if="${productList.hasPrevious()}">Previous</a>
+            <span th:text="${productList.number + 1}"></span>/<span th:text="${productList.totalPages}"></span>
+            <a th:href="@{'/products'(page=${productList.number + 1})}" th:if="${productList.hasNext()}">Next</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
